@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  <h1>User Entry Form:</h1>
+<form action="/adduser" method="POST">
+	<input type="text"  name="fname" class="form-control" placeholder="Enter First name (ex. Noah)" size="40"><br>
+	<input type="text"  name="lname" class="form-control" placeholder="Enter Last Name (ex. Smith)" size="40"><br>
+	<input type="email"  name="email" class="form-control" placeholder="Enter Email (ex. Nsmith@example.com)" size="40"><br>
+	<input type="password" class="form-control" name="password" placeholder="Enter password" size="40"><br>
+	<input type="submit" class="btn btn-primary" value="submit">
+</form>
