@@ -10,6 +10,10 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var createRouter = require('./routes/create');
+var updateRouter = require('./routes/update');
+var listRouter = require('./routes/list');
+var deleteRouter = require('./routes/delete');
 
 var app = express();
 
@@ -23,10 +27,61 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/* GET home page. */
+// GET HOME PAGE
 app.get('/', function (req, res) {
 	console.log("Sent as a get request");
 	res.render('index', {title: "HELLO WORLD!"})
+})
+
+// GET CREATE PAGE
+app.get('/create', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('create', {title: "TESTING THE TITLE"})
+})
+
+// GET UPDATE PAGE 
+app.get('/update', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('update', {title: "Update Page"})
+})
+
+// GET LIST PAGE
+app.get('/list', function (req, res) {
+	console.log("Sent as a get request");
+
+	res.render('list', { title: "List Page"})
+})
+
+// GET DELETE PAGE
+app.get('/delete', function (req, res) {
+	console.log("Sent as a get request");
+
+	res.render('delete', { title: "Delete Page"})
+})
+
+
+// ROUTE TO CREATE 
+app.post('/create', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('index')
+})
+
+// ROUTE TO UPDATE 
+app.post('/update', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('index')
+})
+
+// ROUTE TO LIST 
+app.post('/list', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('index')
+})
+
+// ROUTE TO DELETE 
+app.post('/delete', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('index')
 })
 
 // ADDING A SESSION FUNCTION
@@ -43,6 +98,10 @@ app.use(
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/create', createRouter);
+app.use('/update', updateRouter);
+app.use('/list', listRouter);
+app.use('/delete', deleteRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
