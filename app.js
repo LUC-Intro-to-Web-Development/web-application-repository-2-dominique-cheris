@@ -1,6 +1,10 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const port = 3000;
+
+//app.use(express.static('assets'));
+
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
@@ -15,9 +19,15 @@ app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+/* GET home page. */
+app.get('/', function (req, res) {
+	console.log("Sent as a get request");
+	res.render('index', {title: "HELLO WORLD!"})
+})
 
 // ADDING A SESSION FUNCTION
 /*
@@ -50,4 +60,9 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-module.exports = app;
+
+
+ module.exports = app;
+
+//app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
