@@ -1,9 +1,11 @@
 var createError = require('http-errors');
+const dbOperations = require('./database.js');
 var express = require('express');
 var path = require('path');
 const port = 3000;
 
-//app.use(express.static('assets'));
+
+//app.use(express.static('public'));
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -19,7 +21,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,62 +29,46 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/create', createRouter);
+app.use('/update', updateRouter);
+app.use('/list', listRouter);
+app.use('/delete', deleteRouter);
+
 // GET HOME PAGE
 app.get('/', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('index', {title: "HELLO WORLD!"})
+	dbOperations.getAnime(res);
+	//res.render('index', {title: "Home"})
 })
 
-// GET CREATE PAGE
-app.get('/create', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('create', {title: "TESTING THE TITLE"})
-})
-
-// GET UPDATE PAGE 
-app.get('/update', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('update', {title: "Update Page"})
-})
-
-// GET LIST PAGE
-app.get('/list', function (req, res) {
-	console.log("Sent as a get request");
-
-	res.render('list', { title: "List Page"})
-})
-
-// GET DELETE PAGE
-app.get('/delete', function (req, res) {
-	console.log("Sent as a get request");
-
-	res.render('delete', { title: "Delete Page"})
-})
-
-
-// ROUTE TO CREATE 
+// ROUTE TO CREATE PAGE
 app.post('/create', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('index')
-})
+	dbOperations.createItem(res);
+	//res.render('create', {title: "Create an Anime"})
+  const {animeID,anime_name, release_year,genre, rating} =req.body;
 
-// ROUTE TO UPDATE 
+  dbOperations.createItem(animeID,anime_name, release_year,genre, rating,res);
+})
+// ROUTE TO UPDATE PAGE
 app.post('/update', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('index')
+	dbOperations.updateItem(res);
+	res.render('update', {title: "Update an Anime"})
 })
-
-// ROUTE TO LIST 
+// ROUTE TO LIST PAGE
 app.post('/list', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('index')
+	dbOperations.getAnime(res);
+	res.render('list', {title: "List all Anime"})
 })
 
-// ROUTE TO DELETE 
+// ROUTE TO DELETE PAGE
 app.post('/delete', function (req, res) {
-	console.log("Sent as a get request");
-	res.render('index')
+	dbOperations.deleteItem(res);
+	res.render('delete', {title: "Delete an Anime"})
 })
+
+
+
 
 // ADDING A SESSION FUNCTION
 /*
@@ -96,12 +82,7 @@ app.use(
 );
 */
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/create', createRouter);
-app.use('/update', updateRouter);
-app.use('/list', listRouter);
-app.use('/delete', deleteRouter);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -123,5 +104,5 @@ app.use((err, req, res, next) => {
 
  module.exports = app;
 
-//app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+ // app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 

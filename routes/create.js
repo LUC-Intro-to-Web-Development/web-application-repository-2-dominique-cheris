@@ -7,20 +7,20 @@ router.use((req,res,next) => {
   next()
 })
 
-// GET create page.
-router.get('/',(req, res)=> {
-res.send('GET request to the create page');
+// GET CREATE PAGE
+router.get('/',function(req, res, next) {
+res.send('GET request to the home page');
 });
 
-router.get('/create',(req, res)=> {
-    res.send('GET request to the create page');
-    });
-/*
+router.get('/create',function(req, res, next) {
+  res.send('GET request to the home page');
+  });
+
 router.post('/create',(req,res) => {
   res.send('POST request to the create page');
 
 });
-*/
+
 
 module.exports = router;
 
