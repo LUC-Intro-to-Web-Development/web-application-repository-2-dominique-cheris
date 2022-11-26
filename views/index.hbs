@@ -1,82 +1,20 @@
+      <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+  
+
 <h1>{{title}}</h1>
 
-<div class="page-navigation">
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #023535;">
-  <ul class="navbar-nav mx-auto">
-  <li class="nav-item active">
-  <a class="nav-link" href="/">Home</a>
-  </li>
-  <a class="nav-link" href="/create">Create an Anime</a>
-  </li>
-  <a class="nav-link" href="/update">Update an Anime</a>
-  </li>
-  <a class="nav-link" href="/list">List All Anime</a>
-  </li>
-  <a class="nav-link" href="/delete">Delete an Anime</a>
-  </nav>
-</div>
+<ul>
+	<li><span style="font-weight: 700;">Home</span> - /</li>
+	<li><span style="font-weight: 700;">Create an Anime</span> - /create</li>
+  <li><span style="font-weight: 700;">Update an Anime</span> - /update</li>
+	<li><span style="font-weight: 700;">Display All Anime</span> - /list</li>
+	<li><span style="font-weight: 700;">Delete an Anime</span> - /delete</li>
+	
+</ul>
 
-<style>
-    #container{
-        width: 70%;
-        margin:auto;
-    }
-    table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
-        width: 100%;
-    }
-    td, th {
-        border:1px solid #dddddd;
-        text-align: left;
-        padding:8px;
-    }
-    tr:nth-child(even) {
-        background-color: #dddddd;
-    }
-    </style>
-    </head>
-    <body>
-        <div id="container"
-        <h1>Anime Database</h1>
 
-        <H2>Enter Anime Item</H2>
-
-        <form action="/create" method="POST">
-    <input type="number"  name="ID" class="form-control" placeholder="Enter Anime ID (ex. 5)" size="40"><br>
-	<input type="text"  name="Title" class="form-control" placeholder="Enter Anime Name (ex. Naruto)" size="40"><br>
-	<input type="number" min="1900" max="2099" step="1" name="Release_Year" class="form-control" placeholder="Enter Anime Release Date   (ex. 2022)" size="40"><br>
-	<input type="text"  name="Genre" class="form-control" placeholder="Enter Anime Genre (ex. Slice-of-life)" size="40"><br>
-	<input type="number" step="0.01"class="form-control" name="Rating" placeholder="Enter a rating" size="40"><br>
-	<input type="submit" class="btn btn-primary" value="submit">
-</form>
-
-<h2>Anime List:</h2>
-<table style="margin:20px;">
-    <tr>
-        <th>ANIME ID</th>
-        <th>TITLE</th>
-         <th>RELEASE YEAR</th>
-          <th>GENRE</th>
-          <th>RATING</th>
-           <th>UPDATE</th>
-    </tr>
-    {{#each rows}}
-    <tr>
-        <td>{{this.animeID}}</td>
-        <td>{{this.anime_name}}</td>
-        <td>{{this.release_year}}</td>
-        <td>{{this.genre}}</td>
-        <td>{{this.rating}}</td>
-        <td>
-            <form action="/delete" method="POST">
-            
-            <button name="deleterecord" id="deletenow" type="submit" class="btn btn-danger" value
-            </form>
-        </td>
-    </tr>
-    {{/each}}
-</table>
-</div>
+      
     </body>
     </html>
