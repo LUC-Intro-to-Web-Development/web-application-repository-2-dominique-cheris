@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
-
-// GET LIST PAGE
+/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('list', { title: 'ANIME LIST' });
+  res.render('display', { title: 'Express' });
 });
 
 module.exports = router;

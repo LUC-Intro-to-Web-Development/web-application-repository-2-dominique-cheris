@@ -5,15 +5,17 @@ var fs = require('fs');
 var user = require('../model/user.js');
 
 
-// ADDING ANIME
+/* Create User */
 router.post('/', function(req, res, next) {
 
-    //Using the data model user from create.js
-
-    user.animeName = req.body.anime_name;
-    user.releaseYear = req.body.release_year;
-    user.genre = req.body.genre;
-    user.rating = req.body.rating;
+    //Using the data model user from user.js
+    user.firstName = req.body.fname;
+    user.lastName = req.body.lname;
+    user.email = req.body.email;
+    user.password = req.body.password;
+  
+    //outputting user to console to verify that user was created
+    console.log(user);
   
     //reading users from user.json file and assigning user to userData variable
     let userData = fs.readFileSync('./users.json');
@@ -38,8 +40,9 @@ router.post('/', function(req, res, next) {
     })
   
     //Render the new user object to display view
-    res.render('list', user)
+    res.render('display', user)
 
   });
 
   module.exports = router;
+
