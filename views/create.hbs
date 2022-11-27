@@ -1,31 +1,44 @@
+<nav class="navbar navbar-expand-xl navbar-dark" style="background-color: #0C0D08;">
+  <a class="navbar-brand" href="/">{{title}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/create">Create an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/users">Update an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">Display all Anime</a>
+      </li>
+  
+    </ul>
+  </div>
+</nav>
+
+
 <h1>ENTER ANIME HERE</h1>
 
-<form action="/create" method="POST">
-  <div class="form-group">
-    <label for="exampleAnimeID">Anime ID</label>
-    <input type="number" class="form-control" id="exampleAnimeID" placeholder="Enter Anime ID (ex. 5)">
-  </div>
-
-  <div class="form-group">
-    <label for="exampleAnimeTitle">Title</label>
-    <input type="text" class="form-control" id="exampleTitle" placeholder="Enter Anime Name (ex. Naruto)">
-  </div>
-
-  <div class="form-group">
-    <label for="exampleReleaseYear">Release Year</label>
-    <input type="number" class="form-control" id="exampleYear" placeholder="Enter Anime Release Date (ex. 2022)">
-  </div>
-
-    <div class="form-group">
-    <label for="exampleGenre">Genre</label>
-    <input type="text" class="form-control" id="exampleGenre" placeholder="Enter Anime Genre (ex. Slice-of-life)">
-  </div>
-
-    <div class="form-group">
-    <label for="exampleRating">Rating</label>
-    <input type="number" class="form-control" id="exampleRating" placeholder="Enter a rating">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<form action="/add" method="POST">
+	<input type="number"  name="animeID" class="form-control" placeholder="Enter Anime ID (ex. 10)" size="40"><br>
+	<input type="text"  name="animeName" class="form-control" placeholder="Enter Anime Name (ex. Naruto)" size="40"><br>
+	<input type="number"  name="releaseYear" class="form-control" placeholder="Enter Release Year (ex. 2022)" size="40"><br>
+	<input type="text" class="form-control" name="genre" placeholder="Enter Genre (ex. Adventure)" size="40"><br>
+  	<input type="number" class="form-control" name="rating" placeholder="Enter Rating (ex. 7)" size="40"><br>
+	<input type="submit" class="btn btn-primary" value="submit">
 </form>
 
 
+
+<form action="/delete" method="POST">
+<button type="submit" class="btn btn-danger">Delete Record</button>
+            </form>
+
+<form action="/update" method="POST">
+<button type="submit" class="btn btn-warning">Update Record</button>
+            </form>
+			

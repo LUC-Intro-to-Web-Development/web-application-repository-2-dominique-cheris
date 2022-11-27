@@ -1,10 +1,24 @@
-<h1>{{title}}</h1>
-<p>Welcome to the {{title}}</p>
-<p>Please use the paths below to navigate the application</p>
-<ul>
-	<li><span style="font-weight: 700;">Home</span> - /</li>
-	<li><span style="font-weight: 700;">Create an Anime</span> - /create</li>
-  <li><span style="font-weight: 700;">Update an Anime</span> - /users</li>
-	<li><span style="font-weight: 700;">Display All Anime</span> - /display</li>
-	
-</ul>
+<nav class="navbar navbar-expand-xl navbar-dark" style="background-color: #0C0D08;">
+  <a class="navbar-brand" href="/">{{title}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/create">Create an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/users">Update an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="#">Display all Anime</a>
+      </li>
+  
+    </ul>
+  </div>
+</nav>
+
+
+<h2>Welcome to the {{title}} where you can help us enter,update and delete anime!</h2>

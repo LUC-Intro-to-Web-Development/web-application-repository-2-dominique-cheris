@@ -1,10 +1,11 @@
 var user = {
 
-	firstName: "",
-	lastName: "",
-	email: "",
-	password: ""
-
+	animeID: "",
+	animeName: "",
+	releaseYear: "",
+	genre: "",
+	rating: ""
+	
 }
 
 exports.user;

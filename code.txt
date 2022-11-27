@@ -1,0 +1,27 @@
+<form action="/add" method="POST">
+  <div class="form-group">
+    <label for="exampleAnimeID">Anime ID</label>
+    <input type="number" class="form-control" id="animeID" placeholder="Enter Anime ID (ex. 5)">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleAnimeTitle">Title</label>
+    <input type="text" class="form-control" id="animeName" placeholder="Enter Anime Name (ex. Naruto)">
+  </div>
+
+  <div class="form-group">
+    <label for="exampleReleaseYear">Release Year</label>
+    <input type="number" class="form-control" id="releaseYear" placeholder="Enter Anime Release Date (ex. 2022)">
+  </div>
+
+    <div class="form-group">
+    <label for="exampleGenre">Genre</label>
+    <input type="text" class="form-control" id="genre" placeholder="Enter Anime Genre (ex. Slice-of-life)">
+  </div>
+
+    <div class="form-group">
+    <label for="exampleRating">Rating</label>
+    <input type="number" class="form-control" id="rating" placeholder="Enter a rating">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
