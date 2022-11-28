@@ -25,3 +25,27 @@
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+
+//FROM DISPLAY.HBS
+<div>
+	
+<h1>LIST OF ANIME:</h1>
+<table>
+		<tr>
+			<th>Anime ID</th>
+			<th>Anime Name</th>
+			<th>Release Year</th>
+			<th>Genre</th>
+			<th>Rating</th>
+		</tr>
+	{{#each createdAnime}}
+		<tr>
+			<td>{{this.animeID}}</td>
+			<td>{{this.animeName}}</td>
+			<td>{{this.releaseYear}}</td>
+			<td>{{this.genre}}</td>
+			<td>{{this.rating}}</td>
+		</tr>
+	{{/each}}
+</table>
+</div>

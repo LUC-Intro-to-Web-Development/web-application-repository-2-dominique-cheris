@@ -1,4 +1,4 @@
-var user = {
+var anime = {
 
 	animeID: "",
 	animeName: "",
@@ -8,4 +8,4 @@ var user = {
 	
 }
 
-exports.user;
+exports.anime;

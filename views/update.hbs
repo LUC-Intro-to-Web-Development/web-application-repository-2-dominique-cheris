@@ -20,19 +20,25 @@
   </div>
 </nav>
 
+<div>
+<h1>LIST OF ANIME:</h1>
+<table>
+	
+		<tr>
+			<td>Anime ID: {{this.animeID}}</td>
+			<td>Anime Name: {{this.animeName}}</td>
+			<td>Release Year: {{this.releaseYear}}</td>
+			<td>Genre: {{this.genre}}</td>
+			<td>Rating: {{this.rating}}</td>
+		</tr>
+</table>
+</div>
 
-<h1>ENTER ANIME HERE</h1>
-
-<form action="/add" method="POST">
-	<input type="number"  name="animeID" class="form-control" placeholder="Enter Anime ID (ex. 10)" size="40"><br>
-	<input type="text"  name="animeName" class="form-control" placeholder="Enter Anime Name (ex. Naruto)" size="40"><br>
-	<input type="number"  name="releaseYear" class="form-control" placeholder="Enter Release Year (ex. 2022)" size="40"><br>
-	<input type="text" class="form-control" name="genre" placeholder="Enter Genre (ex. Adventure)" size="40"><br>
-  	<input type="number" class="form-control" name="rating" placeholder="Enter Rating (ex. 7)" size="40"><br>
-	<input type="submit" class="btn btn-primary" value="submit">
-</form>
+<a href="/animes"><button type="button" class="btn btn-success"> View All Anime</button></a>
 
 
+<form action="/delete" method="POST">
+<button name="deleterecord" id="deletenow" type="submit" class="btn btn-danger" value="{{this.animeID}}">DELETE</button>
 
-
-			
+<form action="/update" method="POST">
+<button name="updaterecord" id="updatenow" type="submit" class="btn btn-warning" value="{{this.animeID}}">UPDATE</button>

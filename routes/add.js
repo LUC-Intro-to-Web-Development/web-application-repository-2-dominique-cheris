@@ -2,36 +2,36 @@ var express = require('express');
 var router = express.Router();
 
 var fs = require('fs');
-var user = require('../model/user.js');
+var anime = require('../model/anime.js');
 
 
-/* Create User */
+/* Create animes */
 router.post('/', function(req, res, next) {
 
-    //Using the data model user from user.js
-    user.animeID = req.body.animeID;
-    user.animeName = req.body.animeName;
-    user.releaseYear = req.body.releaseYear;
-    user.genre = req.body.genre;
-    user.rating = req.body.rating;
+    //Using the data model anime from anime.js
+    anime.animeID = req.body.animeID;
+    anime.animeName = req.body.animeName;
+    anime.releaseYear = req.body.releaseYear;
+    anime.genre = req.body.genre;
+    anime.rating = req.body.rating;
   
-    //outputting user to console to verify that user was created
-    console.log(user);
+    //outputting anime to console to verify that anime was created
+    console.log(anime);
   
-    //reading users from user.json file and assigning user to userData variable
-    let userData = fs.readFileSync('./users.json');
+    //reading anime from animes.json file and assigning anime to animeData variable
+    let animeData = fs.readFileSync('./animes.json');
   
     //The JSON.parse() is converting the string to JS objects
-    let siteAnime = JSON.parse(userData);
+    let siteAnime = JSON.parse(animeData);
   
-    //Adding the new user to the end of the converted array that was just read in from users.json
-    siteAnime.push(user);
+    //Adding the new anime to the end of the converted array that was just read in from animes.json
+    siteAnime.push(anime);
   
-    /**Now that the user has been added to the array, the JSON.stringify() method converts the JS array
-    * into a string so that we can override the users.json file and write the updated array of objects to users.json file
+    /**Now that the anime has been added to the array, the JSON.stringify() method converts the JS array
+    * into a string so that we can override the animes.json file and write the updated array of objects to animes.json file
     **/ 
-    const userString = JSON.stringify(siteAnime)
-    fs.writeFile('./users.json', userString, err => {
+    const animeString = JSON.stringify(siteAnime)
+    fs.writeFile('./animes.json', animeString, err => {
         //error handling if, issue arrises with file, else output to successfully wrote file
         if (err) {
             console.log('Error writing file', err)
@@ -40,8 +40,8 @@ router.post('/', function(req, res, next) {
         }
     })
   
-    //Render the new user object to display view
-    res.render('display', user)
+    //Render the new anime object to display view
+    res.render('update', anime)
 
   });
 

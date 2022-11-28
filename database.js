@@ -45,10 +45,10 @@ db.run(createAnimeItem,params,function(err){
 	if(err){
 		return console.log(err.message);
 	}
-	getAllAnimeItems(res);
 	})
 
 }
+
 
 //createItem('Attack on Titans',2013,'Fantasy',9.6);
 
@@ -102,7 +102,6 @@ let getAnime = (res) => {
 	if(err) {
 		throw err;
 	}
-	console.log(rows);
 	res.render('index', {rows})
 	});
 
@@ -111,9 +110,9 @@ let getAnime = (res) => {
 
 
 // DELETE ANIME ITEM
-let deleteItem = () => {
+let deleteItem = (recordToDelete) => {
 	var deleteAnimeItem = 'DELETE FROM anime_items WHERE animeID = ?';
-	var params = [1];
+	var params = [recordToDelete];
 
 db.run(deleteAnimeItem,params,function(err){
 
