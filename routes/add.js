@@ -22,15 +22,15 @@ router.post('/', function(req, res, next) {
     let animeData = fs.readFileSync('./animes.json');
   
     //The JSON.parse() is converting the string to JS objects
-    let siteAnime = JSON.parse(animeData);
+    let siteAnimes = JSON.parse(animeData);
   
     //Adding the new anime to the end of the converted array that was just read in from animes.json
-    siteAnime.push(anime);
+    siteAnimes.push(anime);
   
     /**Now that the anime has been added to the array, the JSON.stringify() method converts the JS array
     * into a string so that we can override the animes.json file and write the updated array of objects to animes.json file
     **/ 
-    const animeString = JSON.stringify(siteAnime)
+    const animeString = JSON.stringify(siteAnimes)
     fs.writeFile('./animes.json', animeString, err => {
         //error handling if, issue arrises with file, else output to successfully wrote file
         if (err) {

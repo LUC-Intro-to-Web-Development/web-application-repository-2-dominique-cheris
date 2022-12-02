@@ -7,11 +7,11 @@ var fs = require('fs');
 router.get('/', function(req, res, next) {
 
 let animeData = fs.readFileSync('./animes.json');
-var siteAnime = JSON.parse(animeData);
+var siteAnimes = JSON.parse(animeData);
 
 
 //Assigning the parsed array of objects read-in from animes.json to a variable called createdAnime
-var createdAnime = siteAnime;
+var createdAnime = siteAnimes;
 res.render('animes', {createdAnime});
 });
 
