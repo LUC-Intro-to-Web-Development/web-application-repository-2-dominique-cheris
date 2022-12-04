@@ -13,7 +13,7 @@
         <a class="nav-link" href="/update">Update an Anime</a>
       </li>
 	  <li class="nav-item">
-        <a class="nav-link" href="display">Display all Anime</a>
+        <a class="nav-link" href="/display">Display all Anime</a>
       </li>
   
     </ul>
@@ -36,6 +36,22 @@
 			<td>{{this.releaseYear}}</td>
 			<td>{{this.genre}}</td>
 			<td>{{this.rating}}</td>
+
+			 <td>
+                            <div class="button-container">
+                            <form action="/update" method="POST">
+                                <button name="updateanime" id="update" type="submit" class="btn btn-success" value="{{this.itemID}}">UPDATE</button>
+                            </form>
+                            <form action="/delete" method="POST">
+                                <button name="deleteanime" id="deletenow" type="submit" class="btn btn-danger" value="{{this.itemID}}">DELETE</button>
+                            </form>
+                            </div>
+                        </td>
 		</tr>
 	{{/each}}
 </table>
+
+     </div>
+    </body>
+
+</html>

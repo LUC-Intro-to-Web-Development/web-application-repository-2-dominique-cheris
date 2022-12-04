@@ -36,16 +36,20 @@ db.run(createAnimeItem,params,function(err){
 */
 
 // CREATE ANIME ITEM
-let createItem = (animeID,anime_name,release_year,genre,res) =>{
+let createItem = (anime_name,release_year,genre,res) =>{
 	var createAnimeItem = `INSERT INTO anime_items(anime_name,release_year,genre,rating) VALUES (?,?,?,?)`
-	var params = [animeID,anime_name,release_year,genre];
+	var params = [anime_name,release_year,genre];
 
 db.run(createAnimeItem,params,function(err){
 
 	if(err){
 		return console.log(err.message);
 	}
+		console.log("Anime Item Created");
+        console.log(`Rows inserted ${this.changes}`);
+	
 	})
+	getAllAnimeItems(res)
 
 }
 
@@ -89,8 +93,8 @@ let sql = updateItem = `UPDATE anime_items
 		db.run(sql, function(err) {
 		  if(err){
 			  return console.error(err.message);
+			  console.log(`Row(s) updated: ${this.changes}`);
 		  }
-		  console.log(`Row(s) updated: ${this.changes}`);
 		  
 	  });
 	
@@ -102,6 +106,7 @@ let getAnime = (res) => {
 	if(err) {
 		throw err;
 	}
+	console.log(rows)
 	res.render('index', {rows})
 	});
 
