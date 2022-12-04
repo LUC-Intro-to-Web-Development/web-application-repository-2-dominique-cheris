@@ -1,72 +1,61 @@
-var createError = require('http-errors');
+const express = require('express');
+const app = express();
 const dbOperations = require('./database.js');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const port = 3000
 
-var indexRouter = require('./routes/index');
-var createRouter = require('./routes/create');
-var addRouter = require('./routes/add');
-var displayRouter = require('./routes/display');  
-var updateRouter = require('./routes/update');  
-
-var app = express();
+/**To serve static files such as images, CSS files, and JavaScript files, create a folders
+* and include the below statement.  The below statement assumes that I have a folder named assets
+**/
+app.use(express.static('assets'))
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set("view engine", "hbs");
 
-app.use(logger('dev'));
+// parse application/json
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+// For parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }))
+
+// ROUTE TO HOME PAGE
 app.get('/', function (req, res) {
-  dbOperations.getAnime(res)
 
-  res.render('index',{
-    title: "ANIME DATABASE"
-  })
+  dbOperations.getAnime(res);
 })
 
-app.use('/', indexRouter);
-app.use('/display', displayRouter);
-app.use('/create', createRouter);
-app.use('/add', addRouter);
-app.use('/update', updateRouter);
 
-app.post('/add', function (req,res) {
-  res.render('index', {title: 'ANIME DATABASE'})
+// ROUTE TO UPDATE PAGE
+app.get('/update', function (req, res) {
 
-  const {animeID,animeName,releaseYear,genre,rating} = req.body;
-
-  dbOperations.createItem(animeID,animeName,releaseYear,genre,rating);
+  dbOperations.getAnime(res);
 })
 
-app.post('/delete', function (req,res) {
-  res.render('index', {title: 'ANIME DATABASE'})
+// ROUTE TO CREATE ANIME LIST ITEM
+ app.post('/create', function (req, res) {
 
-  const {deleterecord} = req.body;
+	// GETTING BODY PARAMETERS
+  const {anime_name,release_year,genre,rating}= req.body;
 
+  // EXECUTE createItems METHOD
+  dbOperations.createItem(anime_name,release_year,genre,rating, res);
+
+ })
+
+ // ROUTE TO DELETE ANIME ITEM
+ app.post('/delete', function (req, res) {
+	// GETTING BODY PARAMETERS
+  const {deleterecord}= req.body;
   dbOperations.deleteItem(deleterecord);
-})
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+ })
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+ // ROUTE TO UPDATE ANIME LIST ITEM
+ app.post('/update', function (req, res) {
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+	// GETTING BODY PARAMETERS
+  const {anime_name,release_year,genre,rating}= req.body;
+  dbOperations.updateItem(anime_name,release_year,genre,rating);
 
-module.exports = app;
+ })
+ 
+ module.exports = app;

@@ -1,8 +1,8 @@
 var anime = {
 
 	animeID: "",
-	animeName: "",
-	releaseYear: "",
+	anime_name: "",
+	release_year: "",
 	genre: "",
 	rating: ""
 	
