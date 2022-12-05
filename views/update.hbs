@@ -37,7 +37,7 @@
 	<input type="text"  name="genre" class="form-control"value="{{row.genre}}" placeholder="Enter Anime Genre (ex. Slice-of-life)" size="40"><br>
 	<input type="number" step="0.01" name="rating"class="form-control"value="{{row.rating}}" placeholder="Enter a rating" size="40"><br>
   <input type="text"  name="description"class="form-control"value="{{row.description}}" placeholder="Enter a description" size="40"><br>
-    <input type="aubmit" class="btn btn-primary" value="{{row.animeID}}">
+    <input type="hidden" name="animeID" class="btn btn-primary" value="{{row.animeID}}">
 	<input type="submit" class="btn btn-primary" value="submit">
 </form>
 </div>
@@ -45,5 +45,6 @@
 
 </script>
 </body>
+
 
 </html>

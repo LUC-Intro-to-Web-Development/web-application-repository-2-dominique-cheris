@@ -47,7 +47,7 @@ let getAnime = (res) => {
 
 // UPDATE ANIME ITEM
 
-var updateItem = (updaterecord) =>{
+var updateItem = (updaterecord,res) =>{
     var updateAnimeItem = 'SELECT animeID, anime_name, release_year, genre, rating, description FROM anime_items WHERE animeID = ?';
     var params = [updaterecord];
 
@@ -57,11 +57,24 @@ var updateItem = (updaterecord) =>{
 		}
        
         console.log(row);
-        // THIS LINE STOPS THE FUNCTION OF MY DELETE res.render('update', {row});
+      res.render('update', {row});
 	})
 }
 
+var confirmUpdate = (updaterecord,res) => {
+    var getConfirmUpdate = // UPDATE SQL STATEMENT HERE. PARAMETERS OF THE NEW VALUES
+    var params = [updaterecord.animeID, updaterecord.anime_name,updaterecord.release_year, updaterecord.genre,updaterecord.rating, updaterecord.description]
+    db.run(deleteAnimeItem,params,function(err){
 
+        if(err){
+            return console.log(err.message);
+        }
+        console.log("Anime Item Deleted");
+        console.log('Rows deleted ${this.changes}');
+        });
+       
+       getAnime(res);
+}
 
 // DELETE ANIME ITEM
 let deleteItem = (recordToDelete,res) =>{
@@ -76,9 +89,10 @@ let deleteItem = (recordToDelete,res) =>{
         console.log('Rows deleted ${this.changes}');
         });
        // NEED TO RELOAD PAGE TO SHOW DELETION.
+       getAnime(res);
     }
 
     
     
-    module.exports = {createItem,updateItem,getAnime,deleteItem}
+    module.exports = {createItem,updateItem,getAnime,deleteItem,confirmUpdate}
 

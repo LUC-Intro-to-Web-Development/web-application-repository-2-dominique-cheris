@@ -46,7 +46,7 @@ app.get('/update', function (req, res) {
  app.post('/delete', function (req, res) {
 	// GETTING BODY PARAMETERS
   const {deleterecord}= req.body;
-  dbOperations.deleteItem(deleterecord);
+  dbOperations.deleteItem(deleterecord,res);
 
  })
 
@@ -55,16 +55,17 @@ app.get('/update', function (req, res) {
 
 	// GETTING BODY PARAMETERS
   const {updaterecord} = req.body;
-  dbOperations.updateItem(updaterecord);
+  dbOperations.updateItem(updaterecord,res);
   console.log(updaterecord)
 
  
 
  // CREATE A ROUTE FOR CONFIRM UPDATE
  app.post('/confirm_update', function (req, res){
-  const {anime_name,release_year,genre,rating,description}= req.body;
+const {animeID,anime_name,release_year,genre,rating,description}= req.body;
 
-dbOperations.getAnime(res);
+var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description};
+dbOperations.confirmUpdate(updatedAnimeItem,res);
  })
 })
 
