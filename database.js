@@ -56,9 +56,13 @@ db.run(createAnimeItem,params,function(err){
 // UPDATE ANIME ITEM
 /*
 let data = ['Adventure','Naruto'];
-let sql = `UPDATE anime_items
-		SET genre = ?
-		WHERE genre = ?`;
+let sql = `UPDATE anime_items SET 
+        genre = ?,
+        anime_name = ?,
+        description = ?,
+        
+
+		WHERE animeID = ?`;
 
 		db.run(sql, data, function(err) {
 		if(err){
