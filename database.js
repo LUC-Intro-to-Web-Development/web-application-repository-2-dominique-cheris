@@ -47,27 +47,25 @@ let getAnime = (res) => {
 // UPDATE ANIME ITEM
 
 let updateItem = (recordToUpdate,res) =>{
-    var updateAnimeItem = 'UPDATE anime_items SET anime_name = ? WHERE animeID = ?';
+    var updateAnimeItem = 'SELECT animeId, anime_name, release_year, genre, rating FROM anime_items WHERE animeID = ?';
     var params = [recordToUpdate];
 
-	db.run(updateAnimeItem, function(err){
+	db.get(updateAnimeItem,params, function(err,rows){
 		if (err){
 			return console.log(err.message);
 		}
-    
 
-        console.log("Anime Updated");
-        console.log(`Rows updated ${this.changes}`);
-	});
-
+        console.log(rows);
+        res.render('update', {rows});
+	})
     getAnime(res);
 
 }
+
+
 // DELETE ANIME ITEM
 let deleteItem = (recordToDelete,res) =>{
-    
     var deleteAnimeItem = 'DELETE FROM anime_items WHERE animeID = ?';
-	
     var params = [recordToDelete];
     db.run(deleteAnimeItem,params,function(err){
 
@@ -77,6 +75,7 @@ let deleteItem = (recordToDelete,res) =>{
         console.log("Anime Item Deleted");
         console.log('Rows deleted ${this.changes}');
         });
+    
     }
     
     

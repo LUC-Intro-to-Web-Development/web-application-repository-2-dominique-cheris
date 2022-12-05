@@ -45,17 +45,17 @@
                     </tr>
                 {{#each rows}}
                     <tr>
-                         <td>{{this.animeID}}</td>
+                        <td>{{this.animeID}}</td>
                         <td>{{this.anime_name}}</td>
                         <td>{{this.release_year}}</td>
                         <td>{{this.genre}}</td>
                         <td>{{this.rating}}</td>
                         <td>
                             <div class="button-container">
-                            <form action="/update_item" method="POST">
-                                <button name="updaterecord" id="update" type="submit" class="btn btn-success" value="{{this.animeID}}">UPDATE</button>
+                            <form action="/update" method="POST">
+                                <button name="updaterecord" id="updatenow" type="submit" class="btn btn-success" value="{{this.animeID}}">UPDATE</button>
                             </form>
-                            <form action="/delete_item" method="POST">
+                            <form action="/delete" method="POST">
                                 <button name="deleterecord" id="deletenow" type="submit" class="btn btn-danger" value="{{this.animeID}}">DELETE</button>
                             </form>
                             </div>

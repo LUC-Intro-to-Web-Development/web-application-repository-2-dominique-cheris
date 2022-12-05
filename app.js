@@ -51,11 +51,12 @@ app.get('/update', function (req, res) {
 
  // ROUTE TO UPDATE ANIME LIST ITEM
  app.post('/update', function (req, res) {
+  console.log("this is coming from the update route.")
 
 	// GETTING BODY PARAMETERS
-  const {anime_name,release_year,genre,rating}= req.body;
-  dbOperations.updateItem(anime_name,release_year,genre,rating);
+  const {updaterecord} = req.body;
+  dbOperations.updateItem(updaterecord);
 
  })
  
- module.exports = app;
+ app.listen(port, () => console.log(`Example app listening on port ${port}!`))

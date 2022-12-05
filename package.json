@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "nodemon app.js"
   },
   "dependencies": {
     "connect-sqlite3": "^0.9.13",
@@ -14,5 +14,8 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "sqlite3": "^5.1.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
