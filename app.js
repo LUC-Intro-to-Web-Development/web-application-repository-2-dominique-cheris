@@ -7,6 +7,7 @@ const port = 3000
 * and include the below statement.  The below statement assumes that I have a folder named assets
 **/
 app.use(express.static('assets'))
+app.use(express.static(__dirname + '/public'));
 
 // view engine setup
 app.set("view engine", "hbs");
@@ -34,10 +35,10 @@ app.get('/update', function (req, res) {
  app.post('/create', function (req, res) {
 
 	// GETTING BODY PARAMETERS
-  const {anime_name,release_year,genre,rating}= req.body;
+  const {anime_name,release_year,genre,rating,description}= req.body;
 
   // EXECUTE createItems METHOD
-  dbOperations.createItem(anime_name,release_year,genre,rating, res);
+  dbOperations.createItem(anime_name,release_year,genre,rating,description, res);
 
  })
 
@@ -51,12 +52,20 @@ app.get('/update', function (req, res) {
 
  // ROUTE TO UPDATE ANIME LIST ITEM
  app.post('/update', function (req, res) {
-  console.log("this is coming from the update route.")
 
 	// GETTING BODY PARAMETERS
   const {updaterecord} = req.body;
   dbOperations.updateItem(updaterecord);
+  console.log(updaterecord)
 
- })
  
+
+ // CREATE A ROUTE FOR CONFIRM UPDATE
+ app.post('/confirm_update', function (req, res){
+  const {anime_name,release_year,genre,rating,description}= req.body;
+
+dbOperations.getAnime(res);
+ })
+})
+
  app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -19,7 +19,12 @@
     </ul>
   </div>
 </nav>
-
+<style>
+     .button-container {
+                display:inline-flex;
+                gap:10px;
+            }
+</style>
 
 
 <body>
@@ -30,6 +35,7 @@
 	<input type="number" min="1900" max="2099" step="1" name="release_year" class="form-control" placeholder="Enter Anime Release Date   (ex. 2022)" size="40"><br>
 	<input type="text"  name="genre" class="form-control" placeholder="Enter Anime Genre (ex. Slice-of-life)" size="40"><br>
 	<input type="number" step="0.01"class="form-control" name="rating" placeholder="Enter a rating" size="40"><br>
+  <input type="text"  name="description"class="form-control" placeholder="Enter a description" size="40"><br>
 	<input type="submit" class="btn btn-primary" value="submit">
 </form>
 
@@ -42,6 +48,8 @@
                         <th>RELEASE YEAR</th>
                           <th>GENRE</th>
                           <th>RATING</th>
+                          <th>DESCRIPTION</th>
+                          <th>MODIFY</th>
                     </tr>
                 {{#each rows}}
                     <tr>
@@ -50,6 +58,7 @@
                         <td>{{this.release_year}}</td>
                         <td>{{this.genre}}</td>
                         <td>{{this.rating}}</td>
+                        <td>{{this.description}}</td>
                         <td>
                             <div class="button-container">
                             <form action="/update" method="POST">

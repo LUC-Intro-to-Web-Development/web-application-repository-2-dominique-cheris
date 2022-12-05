@@ -4,7 +4,8 @@ var anime = {
 	anime_name: "",
 	release_year: "",
 	genre: "",
-	rating: ""
+	rating: "",
+	description:""
 	
 }
 

@@ -14,9 +14,9 @@ let db = new sqlite3.Database('./animedb.db', sqlite3.OPEN_READWRITE, (err) => {
 });
 
 // CREATE ANIME ITEM
-let createItem = (anime_name,release_year,genre,rating,res) =>{
-    var createAnimeItem = `INSERT INTO anime_items(anime_name,release_year,genre,rating) VALUES (?,?,?,?)` //  PARAMETERIZED QUERY
-    var params = [anime_name,release_year,genre,rating];
+let createItem = (anime_name,release_year,genre,rating,description,res) =>{
+    var createAnimeItem = `INSERT INTO anime_items(anime_name,release_year,genre,rating,description) VALUES (?,?,?,?,?)` //  PARAMETERIZED QUERY
+    var params = [anime_name,release_year,genre,rating,description];
 
     db.run(createAnimeItem,params,function(err){
     
@@ -31,36 +31,36 @@ let createItem = (anime_name,release_year,genre,rating,res) =>{
 
 // DISPLAY ALL ANIME 
 let getAnime = (res) => {
-    var getAllAnimeItems = 'SELECT animeID,anime_name,release_year,genre,rating FROM anime_items';
+    var getAllAnimeItems = 'SELECT animeID,anime_name,release_year,genre,rating,description FROM anime_items';
     db.all(getAllAnimeItems, function(err, rows){
         if (err) {
          
             throw err;
           }
+          else {
           console.log(rows);
 		res.render('index', {rows})
-
+          }
     })
-
+    
 }
 
 // UPDATE ANIME ITEM
 
-let updateItem = (recordToUpdate,res) =>{
-    var updateAnimeItem = 'SELECT animeId, anime_name, release_year, genre, rating FROM anime_items WHERE animeID = ?';
-    var params = [recordToUpdate];
+var updateItem = (updaterecord) =>{
+    var updateAnimeItem = 'SELECT animeID, anime_name, release_year, genre, rating, description FROM anime_items WHERE animeID = ?';
+    var params = [updaterecord];
 
-	db.get(updateAnimeItem,params, function(err,rows){
+	db.get(updateAnimeItem,params, function(err,row){
 		if (err){
-			return console.log(err.message);
+			throw err;
 		}
-
-        console.log(rows);
-        res.render('update', {rows});
+       
+        console.log(row);
+        // THIS LINE STOPS THE FUNCTION OF MY DELETE res.render('update', {row});
 	})
-    getAnime(res);
-
 }
+
 
 
 // DELETE ANIME ITEM
@@ -75,8 +75,9 @@ let deleteItem = (recordToDelete,res) =>{
         console.log("Anime Item Deleted");
         console.log('Rows deleted ${this.changes}');
         });
-    
+       // NEED TO RELOAD PAGE TO SHOW DELETION.
     }
+
     
     
     module.exports = {createItem,updateItem,getAnime,deleteItem}
