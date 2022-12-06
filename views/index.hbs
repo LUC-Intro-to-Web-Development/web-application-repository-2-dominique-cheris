@@ -1,20 +1,79 @@
-      <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<nav class="navbar navbar-expand-xl navbar-dark" style="background-color: #0C0D08;">
+  <a class="navbar-brand" href="/">Anime Database</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/create">Create an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/update">Update an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/display">Display all Anime</a>
+      </li>
   
-
-<h1>{{title}}</h1>
-
-<ul>
-	<li><span style="font-weight: 700;">Home</span> - /</li>
-	<li><span style="font-weight: 700;">Create an Anime</span> - /create</li>
-  <li><span style="font-weight: 700;">Update an Anime</span> - /update</li>
-	<li><span style="font-weight: 700;">Display All Anime</span> - /list</li>
-	<li><span style="font-weight: 700;">Delete an Anime</span> - /delete</li>
-	
-</ul>
+    </ul>
+  </div>
+</nav>
+<style>
+     .button-container {
+                display:inline-flex;
+                gap:10px;
+            }
+</style>
 
 
-      
+<body>
+        <div id="container">
+           <h1>Enter Anime Item</h1>
+<form action="/create" method="POST">
+	<input type="text"  name="anime_name" class="form-control" placeholder="Enter Anime Name (ex. Naruto)" size="40"><br>
+	<input type="number" min="1900" max="2099" step="1" name="release_year" class="form-control" placeholder="Enter Anime Release Date   (ex. 2022)" size="40"><br>
+	<input type="text"  name="genre" class="form-control" placeholder="Enter Anime Genre (ex. Slice-of-life)" size="40"><br>
+	<input type="number" step="0.01"class="form-control" name="rating" placeholder="Enter a rating" size="40"><br>
+  <input type="text"  name="description"class="form-control" placeholder="Enter a description" size="40"><br>
+	<input type="submit" class="btn btn-primary" value="submit">
+</form>
+
+            <!-- Display Anime Items -->
+            <h2>ANIME LIST</h2>
+            <table style="margin: 20px;">
+                    <tr>
+                        <th>ANIME ID</th>
+                       <th>TITLE</th>
+                        <th>RELEASE YEAR</th>
+                          <th>GENRE</th>
+                          <th>RATING</th>
+                          <th>DESCRIPTION</th>
+                          <th>MODIFY</th>
+                    </tr>
+                {{#each rows}}
+                    <tr>
+                        <td>{{this.animeID}}</td>
+                        <td>{{this.anime_name}}</td>
+                        <td>{{this.release_year}}</td>
+                        <td>{{this.genre}}</td>
+                        <td>{{this.rating}}</td>
+                        <td>{{this.description}}</td>
+                        <td>
+                            <div class="button-container">
+                            <form action="/update" method="POST">
+                                <button name="updaterecord" id="updatenow" type="submit" class="btn btn-success" value="{{this.animeID}}">UPDATE</button>
+                            </form>
+                            <form action="/delete" method="POST">
+                                <button name="deleterecord" id="deletenow" type="submit" class="btn btn-danger" value="{{this.animeID}}">DELETE</button>
+                            </form>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
     </body>
-    </html>
+
+</html>

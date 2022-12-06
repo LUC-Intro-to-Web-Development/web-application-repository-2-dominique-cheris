@@ -1,108 +1,72 @@
-var createError = require('http-errors');
+const express = require('express');
+const app = express();
 const dbOperations = require('./database.js');
-var express = require('express');
-var path = require('path');
-const port = 3000;
+const port = 3000
 
-
-//app.use(express.static('public'));
-
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var createRouter = require('./routes/create');
-var updateRouter = require('./routes/update');
-var listRouter = require('./routes/list');
-var deleteRouter = require('./routes/delete');
-
-var app = express();
+/**To serve static files such as images, CSS files, and JavaScript files, create a folders
+* and include the below statement.  The below statement assumes that I have a folder named assets
+**/
+app.use(express.static('assets'))
+app.use(express.static(__dirname + '/public'));
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set("view engine", "hbs");
 
-app.use(logger('dev'));
+// parse application/json
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/create', createRouter);
-app.use('/update', updateRouter);
-app.use('/list', listRouter);
-app.use('/delete', deleteRouter);
+// For parsing application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true }))
 
-// GET HOME PAGE
+// ROUTE TO HOME PAGE
 app.get('/', function (req, res) {
-	dbOperations.getAnime(res);
-	//res.render('index', {title: "Home"})
+
+  dbOperations.getAnime(res);
 })
 
-// ROUTE TO CREATE PAGE
-app.post('/create', function (req, res) {
-	dbOperations.createItem(res);
-	//res.render('create', {title: "Create an Anime"})
-  const {animeID,anime_name, release_year,genre, rating} =req.body;
 
-  dbOperations.createItem(animeID,anime_name, release_year,genre, rating,res);
-})
 // ROUTE TO UPDATE PAGE
-app.post('/update', function (req, res) {
-	dbOperations.updateItem(res);
-	res.render('update', {title: "Update an Anime"})
-})
-// ROUTE TO LIST PAGE
-app.post('/list', function (req, res) {
-	dbOperations.getAnime(res);
-	res.render('list', {title: "List all Anime"})
+app.get('/update', function (req, res) {
+
+  dbOperations.getAnime(res);
 })
 
-// ROUTE TO DELETE PAGE
-app.post('/delete', function (req, res) {
-	dbOperations.deleteItem(res);
-	res.render('delete', {title: "Delete an Anime"})
+// ROUTE TO CREATE ANIME LIST ITEM
+ app.post('/create', function (req, res) {
+
+	// GETTING BODY PARAMETERS
+  const {anime_name,release_year,genre,rating,description}= req.body;
+
+  // EXECUTE createItems METHOD
+  dbOperations.createItem(anime_name,release_year,genre,rating,description, res);
+
+ })
+
+ // ROUTE TO DELETE ANIME ITEM
+ app.post('/delete', function (req, res) {
+	// GETTING BODY PARAMETERS
+  const {deleterecord}= req.body;
+  dbOperations.deleteItem(deleterecord,res);
+
+ })
+
+ // ROUTE TO UPDATE ANIME LIST ITEM
+ app.post('/update', function (req, res) {
+
+	// GETTING BODY PARAMETERS
+  const {updaterecord} = req.body;
+  dbOperations.updateItem(updaterecord,res);
+  console.log(updaterecord)
+
+ 
+
+ // CREATE A ROUTE FOR CONFIRM UPDATE
+ app.post('/confirm_update', function (req, res){
+const {animeID,anime_name,release_year,genre,rating,description}= req.body;
+
+var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description};
+dbOperations.confirmUpdate(updatedAnimeItem,res);
+ })
 })
 
-
-
-
-// ADDING A SESSION FUNCTION
-/*
-app.use(
-  session({
-    secret: 'arbitrary-string',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {secure: true}
-  })
-);
-*/
-
-
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
-
-// error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-
-
- module.exports = app;
-
- // app.listen(port, () => console.log(`Example app listening on port ${port}!`))
-
+ app.listen(port, () => console.log(`Example app listening on port ${port}!`))

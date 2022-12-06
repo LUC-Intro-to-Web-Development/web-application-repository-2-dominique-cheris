@@ -13,124 +13,86 @@ let db = new sqlite3.Database('./animedb.db', sqlite3.OPEN_READWRITE, (err) => {
 	}
 });
 
-/*
-// CREATE ANIME ITEM - TRYING TO ADD CONSTRAIINT AND FLOAT TO RATING
-
-let createItem = (animeID,anime_name,release_year,genre) =>{
-	var createAnimeItem = `INSERT INTO anime_items(
-		anime_name,release_year,genre,rating(nu),
-		CHECK rating(nu) <= 10.0
-		VALUES (?,?,?,?)`
-	var params = [animeID,anime_name,release_year,genre];
-
-db.run(createAnimeItem,params,function(err){
-
-	if(err){
-		return console.log(err.message);
-	}
-	console.log("Anime Item Created");
-	console.log('Rows inserted ${this.changes}');
-	})
-
-}
-*/
-
 // CREATE ANIME ITEM
-let createItem = (animeID,anime_name,release_year,genre,res) =>{
-	var createAnimeItem = `INSERT INTO anime_items(anime_name,release_year,genre,rating) VALUES (?,?,?,?)`
-	var params = [animeID,anime_name,release_year,genre];
+let createItem = (anime_name,release_year,genre,rating,description,res) =>{
+    var createAnimeItem = `INSERT INTO anime_items(anime_name,release_year,genre,rating,description) VALUES (?,?,?,?,?)` //  PARAMETERIZED QUERY
+    var params = [anime_name,release_year,genre,rating,description];
 
-db.run(createAnimeItem,params,function(err){
-
-	if(err){
-		return console.log(err.message);
-	}
-	getAllAnimeItems(res);
-	})
-
-}
-
-//createItem('Attack on Titans',2013,'Fantasy',9.6);
-
-
-// UPDATE ANIME ITEM
-/*
-let data = ['Adventure','Naruto'];
-
-// SOLUTION FOR CONIFRM UPDATE IN REDO BRANCH
- = `UPDATE anime_items SET 
-        genre = ?,
-        anime_name = ?,
-        description = ?,
+    db.run(createAnimeItem,params,function(err){
     
-		WHERE animeID = ?`;
+        if(err){
+            return console.log(err.message);
+        }
+        getAnime(res);
+        })
+    
+    }
 
-        end line
-
-		db.run(sql, data, function(err) {
-		if(err){
-			return console.error(err.message);
-		}
-		console.log(`Row(s) updated: ${this.changes}`);
-		
-	});
-
-db.close();
-*/
-/*
-let sql = `UPDATE anime_items
-          SET genre = '?'
-		  WHERE anime_name = '?';`
-		  db.run(sql, function(err) {
-			if(err){
-				return console.error(err.message);
-			}
-			console.log(`Row(s) updated: ${this.changes}`);
-			
-		});
-*/
-
-let sql = updateItem = `UPDATE anime_items
-		SET rating = '?'
-		WHERE anime_name = '?';`
-		db.run(sql, function(err) {
-		  if(err){
-			  return console.error(err.message);
-		  }
-		  console.log(`Row(s) updated: ${this.changes}`);
-		  
-	  });
-	
 
 // DISPLAY ALL ANIME 
 let getAnime = (res) => {
-	var getAllAnimeItems = 'SELECT animeID,anime_name,release_year,genre FROM anime_items';
-	db.all(getAllAnimeItems,function(err,rows){
-	if(err) {
-		throw err;
-	}
-	console.log(rows);
-	res.render('index', {rows})
-	});
-
+    var getAllAnimeItems = 'SELECT animeID,anime_name,release_year,genre,rating,description FROM anime_items';
+    db.all(getAllAnimeItems, function(err, rows){
+        if (err) {
+         
+            throw err;
+          }
+          else {
+          console.log(rows);
+		res.render('index', {rows})
+          }
+    })
+    
 }
 
+// UPDATE ANIME ITEM
 
+var updateItem = (updaterecord,res) =>{
+    var updateAnimeItem = 'SELECT animeID, anime_name, release_year, genre, rating, description FROM anime_items WHERE animeID = ?';
+    var params = [updaterecord];
+
+	db.get(updateAnimeItem,params, function(err,row){
+		if (err){
+			throw err;
+		}
+       
+        console.log(row);
+      res.render('update', {row});
+	})
+}
+
+var confirmUpdate = (updaterecord,res) => {
+    var getConfirmUpdate = // UPDATE SQL STATEMENT HERE. PARAMETERS OF THE NEW VALUES
+    var params = [updaterecord.animeID, updaterecord.anime_name,updaterecord.release_year, updaterecord.genre,updaterecord.rating, updaterecord.description]
+    db.run(deleteAnimeItem,params,function(err){
+
+        if(err){
+            return console.log(err.message);
+        }
+        console.log("Anime Item Deleted");
+        console.log('Rows deleted ${this.changes}');
+        });
+       
+       getAnime(res);
+}
 
 // DELETE ANIME ITEM
-let deleteItem = () => {
-	var deleteAnimeItem = 'DELETE FROM anime_items WHERE animeID = ?';
-	var params = [1];
+let deleteItem = (recordToDelete,res) =>{
+    var deleteAnimeItem = 'DELETE FROM anime_items WHERE animeID = ?';
+    var params = [recordToDelete];
+    db.run(deleteAnimeItem,params,function(err){
 
-db.run(deleteAnimeItem,params,function(err){
+        if(err){
+            return console.log(err.message);
+        }
+        console.log("Anime Item Deleted");
+        console.log('Rows deleted ${this.changes}');
+        });
+       // NEED TO RELOAD PAGE TO SHOW DELETION.
+       getAnime(res);
+    }
 
-	if(err){
-		return console.log(err.message);
-	}
-	console.log("Anime Item Deleted");
-	console.log('Rows deleted ${this.changes}');
-	});
-}
+    
+    
+    module.exports = {createItem,updateItem,getAnime,deleteItem,confirmUpdate}
 
-
-module.exports = {createItem,updateItem,getAnime,deleteItem}
