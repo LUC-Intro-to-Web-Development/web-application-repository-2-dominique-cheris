@@ -62,19 +62,22 @@ var updateItem = (updaterecord,res) =>{
 }
 
 var confirmUpdate = (updaterecord,res) => {
-    var getConfirmUpdate = // UPDATE SQL STATEMENT HERE. PARAMETERS OF THE NEW VALUES
+    var getConfirmUpdate = 'UPDATE `anime_items` SET animeID = ? anime_name = ? release_year = ? genre = ? rating = ? description = ?, WHERE animeID = ?';
+
+	// UPDATE SQL STATEMENT HERE. PARAMETERS OF THE NEW VALUES
     var params = [updaterecord.animeID, updaterecord.anime_name,updaterecord.release_year, updaterecord.genre,updaterecord.rating, updaterecord.description]
-    db.run(deleteAnimeItem,params,function(err){
+    db.run(getConfirmUpdate,[res.body, res.params],function(err,row){
 
         if(err){
             return console.log(err.message);
         }
-        console.log("Anime Item Deleted");
-        console.log('Rows deleted ${this.changes}');
+        console.log("Anime Item Updated");
+		res.render('update', {row});
         });
        
        getAnime(res);
 }
+
 
 // DELETE ANIME ITEM
 let deleteItem = (recordToDelete,res) =>{
@@ -88,7 +91,7 @@ let deleteItem = (recordToDelete,res) =>{
         console.log("Anime Item Deleted");
         console.log('Rows deleted ${this.changes}');
         });
-       // NEED TO RELOAD PAGE TO SHOW DELETION.
+    
        getAnime(res);
     }
 

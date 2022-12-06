@@ -67,6 +67,6 @@ const {animeID,anime_name,release_year,genre,rating,description}= req.body;
 var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description};
 dbOperations.confirmUpdate(updatedAnimeItem,res);
  })
-})
+ })
 
  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
