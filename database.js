@@ -56,13 +56,16 @@ db.run(createAnimeItem,params,function(err){
 // UPDATE ANIME ITEM
 /*
 let data = ['Adventure','Naruto'];
-let sql = `UPDATE anime_items SET 
+
+// SOLUTION FOR CONIFRM UPDATE IN REDO BRANCH
+ = `UPDATE anime_items SET 
         genre = ?,
         anime_name = ?,
         description = ?,
-        
-
+    
 		WHERE animeID = ?`;
+
+        end line
 
 		db.run(sql, data, function(err) {
 		if(err){
