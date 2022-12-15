@@ -24,12 +24,13 @@ app.get('/', function (req, res) {
   dbOperations.getAnime(res);
 })
 
-
+/*
 // ROUTE TO UPDATE PAGE
 app.get('/update', function (req, res) {
 
   dbOperations.getAnime(res);
 })
+*/
 
 // ROUTE TO CREATE ANIME LIST ITEM
  app.post('/create', function (req, res) {
@@ -55,18 +56,17 @@ app.get('/update', function (req, res) {
 
 	// GETTING BODY PARAMETERS
   const {updaterecord} = req.body;
-  dbOperations.updateItem(updaterecord,res);
-  console.log(updaterecord)
-
- 
+  dbOperations.getAItem(updaterecord,res);
+  
+ })
 
  // CREATE A ROUTE FOR CONFIRM UPDATE
  app.post('/confirm_update', function (req, res){
 const {animeID,anime_name,release_year,genre,rating,description}= req.body;
 
 var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description};
-dbOperations.confirmUpdate(updatedAnimeItem,res);
+dbOperations.updateItem(updatedAnimeItem,res);
  })
- })
+ 
 
  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
