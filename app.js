@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
 const dbOperations = require('./database.js');
-const port = 3000
+const port = process.env.PORT || 3000;
+const bcrypt = require('bcrypt');
+
+
 
 /**To serve static files such as images, CSS files, and JavaScript files, create a folders
 * and include the below statement.  The below statement assumes that I have a folder named assets
@@ -18,19 +21,55 @@ app.use(express.json());
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }))
 
+
+// USERS JS
+app.use('/users', require('./routes/users'));
+
+// ROUTE TO LOGIN PAGE
+app.get('/login',function (req, res) {
+ res.render('login')
+})
+
+// ROUTE TO REGISTRATION PAGE
+app.get('/register',function (req, res) {
+  res.render('register')
+ })
+
+ app.get('/dashboard',function (req, res) {
+  res.render('dashboard')
+ })
+
+// ROUTE TO UPDATE PAGE
+app.get('/update',function (req, res) {
+  res.render('update')
+ })
+
+ // ROUTE TO DISPLAY PAGE
+app.get('/display',function (req, res) {
+  res.render('display')
+ })
+
+
 // ROUTE TO HOME PAGE
 app.get('/', function (req, res) {
 
   dbOperations.getAnime(res);
 })
 
-/*
+
+// ROUTE TO CREATE PAGE
+app.get('/create', function (req, res) {
+
+  dbOperations.getAnime(res);
+})
+
+
 // ROUTE TO UPDATE PAGE
 app.get('/update', function (req, res) {
 
   dbOperations.getAnime(res);
 })
-*/
+
 
 // ROUTE TO CREATE ANIME LIST ITEM
  app.post('/create', function (req, res) {
@@ -68,5 +107,14 @@ var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description
 dbOperations.updateItem(updatedAnimeItem,res);
  })
  
+  // CREATE A ROUTE TO POST REGISTER
+  app.post('/register', async (req, res)=>{
+    
+     })
+
+     // CREATE A ROUTE TO POST LOGIN
+  app.post('/login', function (req, res){
+   
+  })
 
  app.listen(port, () => console.log(`Example app listening on port ${port}!`))

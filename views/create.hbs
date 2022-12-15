@@ -26,14 +26,11 @@
     </ul>
   </div>
 </nav>
-<style>
-  
-            </style>
 </head>
-
 
 <body>
         <div id="container">
+          <div class="mx-sm-3 mb-4">
            <h1>Update Anime Item</h1>
 <form action="/confirm_update" method="POST">
 	<input type="text"  name="anime_name" class="form-control" value="{{row.anime_name}}" placeholder="Enter Anime Name (ex. Naruto)" size="40"><br>
@@ -43,8 +40,10 @@
   <input type="text"  name="description"class="form-control"value="{{row.description}}" placeholder="Enter a description" size="40"><br>
     <input type="hidden" name="animeID" class="btn btn-primary" value="{{row.animeID}}">
 	<input type="submit" class="btn btn-primary" value="Update">
-</form>
+
 </div>
+</div>
+</form>
 <script>
 
 </script>

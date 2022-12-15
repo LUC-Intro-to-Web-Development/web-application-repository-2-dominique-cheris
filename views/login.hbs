@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-xl navbar-dark" style="background-color: #0C0D08;">
+  <a class="navbar-brand" href="/">Anime Database</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/create">Create an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/update">Update an Anime</a>
+      </li>
+	  <li class="nav-item">
+        <a class="nav-link" href="/display">Display all Anime</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+  
+    </ul>
+  </div>
+</nav>
+
+<h1>Login</h1>
+
+<form action="/login" method="POST">
+<div class="mx-sm-3 mb-4">
+  <input type="email"  name="email"class="form-control" id="email" placeholder="Enter your email" size="40" required><br>
+    <input type="password"  name="email"class="form-control" id="pasword" placeholder="Enter your password" size="40" required><br>
+    <button name="register" id="register" type="submit" class="btn btn-success">Login</button>
+</div>
+
+</form>
