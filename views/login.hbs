@@ -25,6 +25,20 @@
     </ul>
   </div>
 </nav>
+<style>
+.lead mt-4 {
+  margin-right: auto;
+}
+
+.button {
+  display:inline-flex;
+  gap:10px;
+            }
+.btn-register {
+  background-color: #012626;
+  color: #ffffff;
+      }
+</style>
 
 <h1>Login</h1>
 
@@ -34,5 +48,6 @@
     <input type="password"  name="email"class="form-control" id="pasword" placeholder="Enter your password" size="40" required><br>
     <button name="register" id="register" type="submit" class="btn btn-success">Login</button>
 </div>
-
 </form>
+<p class="lead mt-4"> No Account? <a href="/users/register"type="submit" class="btn btn-register">Register</a></p>
+</div>

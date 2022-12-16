@@ -34,17 +34,23 @@
                 display:inline-flex;
                 gap:10px;
             }
+      .btn-login {
+       background-color: #012626;
+       color: #ffffff;
+      }
 </style>
 
-<form action="/register" method="POST">
+<form action="/users/register" method="POST">
 <div class="mx-sm-3 mb-4">
-	<input type="text"  name="name" class="form-control" id="name" placeholder="Enter your name" size="40" required><br>
+	<input type="name"  name="name" class="form-control" id="name" placeholder="Enter your name" size="40" required><br>
   <input type="email"  name="email"class="form-control" id="email" placeholder="Enter your email" size="40" required><br>
-    <input type="password"  name="email"class="form-control" id="pasword" placeholder="Enter your password" size="40" required><br>
-    <button name="register" id="register" type="submit" class="btn btn-success">Register</button>
-     <form action="/login" method="POST">
-            <button name="login" id="loginnow" type="submit" class="btn btn-light">Login</button>
-                            </form>
+    <input type="password"  name="password"class="form-control" id="pasword" placeholder="Create password" size="40" required><br>
+     <input type="password"  name="password2"class="form-control" id="pasword" placeholder="Confirm password" size="40" required><br>
+     <button name="register" id="register" type="submit" class="btn btn-success">Register</button>
+     </div>
+     </form>
+     <p class="lead mt-4"> Have an Account? <a href="/users/login"type="submit" class="btn btn-login">Login</a></p>
+           
 </div>
-</form>
+
          

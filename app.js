@@ -3,8 +3,18 @@ const app = express();
 const dbOperations = require('./database.js');
 const port = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
 
 
+
+// DB CONFIG
+const db = require('./config/keys').MongoURI;
+mongoose.set('strictQuery', true);
+
+// CONNECT TO DATABASE
+mongoose.connect(db, { useNewUrlParser: true})
+.then(() => console.log('MongoDB Connected'))
+.catch(err => console.log(err));
 
 /**To serve static files such as images, CSS files, and JavaScript files, create a folders
 * and include the below statement.  The below statement assumes that I have a folder named assets
