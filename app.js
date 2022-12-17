@@ -22,6 +22,8 @@ mongoose.connect(db, { useNewUrlParser: true})
 app.use(express.static('assets'))
 app.use(express.static(__dirname + '/public'));
 
+
+
 // view engine setup
 app.set("view engine", "hbs");
 
@@ -117,10 +119,7 @@ var updatedAnimeItem = {animeID,anime_name,release_year,genre,rating,description
 dbOperations.updateItem(updatedAnimeItem,res);
  })
  
-  // CREATE A ROUTE TO POST REGISTER
-  app.post('/register', async (req, res)=>{
-    
-     })
+
 
      // CREATE A ROUTE TO POST LOGIN
   app.post('/login', function (req, res){
