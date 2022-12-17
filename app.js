@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 
 
-// DB CONFIG
+// DB CONFIGURATION
 const db = require('./config/keys').MongoURI;
 mongoose.set('strictQuery', true);
 
