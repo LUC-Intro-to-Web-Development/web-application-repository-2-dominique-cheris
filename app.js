@@ -6,18 +6,18 @@ const port = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const { use } = require('passport');
 const localStrategy = require('passport-local').Strategy;
 require('dotenv').config();
-
+const User = require('./models/User.js');
 
 // CONNECT TO DATABASE
 mongoose.set("strictQuery", true);
 
 mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qe67sb8.mongodb.net/?retryWrites=true&w=majority/Anime Database`,(err)=>{
-
 if(err) throw err;
-console.log("DB Connected Successfully");
-})
+console.log("Mongoose Connected Successfully")
+});
 
 
 /**To serve static files such as images, CSS files, and JavaScript files, create a folders
@@ -26,7 +26,51 @@ console.log("DB Connected Successfully");
 app.use(express.static('assets'))
 app.use(express.static(__dirname + '/public'));
 
+app.use(session({
+  secret:process.env.SESS_PASS,
+  resave: false,
+  saveUninitialized:true
+}));
 
+
+
+// INITIALIZING PASSPORT
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(function (user, done) {
+  return done(null, user.id);
+});
+
+passport.deserializeUser(function(id,done) {
+ User.findById(id, function (err, user) {
+ return done(err,user);
+ });
+});
+
+passport.use(new localStrategy(function (username,password, done) {
+  User.findOne({username: username}, function (err, user) {
+    if (err)return done(err);
+    if(!user) return done(null,false, {message: 'Incorrect username'});
+
+      bcrypt.compare(password, user.password, function (err,res) {
+        if (err)return done(err);
+
+        if(res === false) return done(null, false, {message: 'Incorrect password'});
+        return done(null,user);
+    });
+  });
+}));
+
+// REDIRECT TO LOGIN PAGE
+function isLoggedIn(req,res,next) {
+  if (req.isAuthenticated()) return next();
+  res.redirect('/login');
+}
+
+function isLoggedOut(req,res,next) {
+  if (!req.isAuthenticated()) return next();
+  res.redirect('/');
+}
 
 // VIEW ENGINE
 app.set("view engine", "hbs");
@@ -35,23 +79,64 @@ app.set("view engine", "hbs");
 app.use(express.json());
 
 // For parsing application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: false }))
 
 
-// USERS JS
+/* USERS JS
 app.use('/users', require('./routes/users'));
+*/
+// ROUTES
+
+
+// SETUP ADMIN USER
+app.get('/setup', async (req,res) => {
+  const exists = await User.exists({ username: "admin"});
+
+  if (exists) {
+    res.redirect('/login');
+    return;
+  };
+bcrypt.genSalt(10, function (err, salt) {
+  if (err) return next(err);
+  bcrypt.hash('mypassword', salt, function (err,hash) {
+    if (err) return next(err);
+    const newAdmin = new User ({
+      username: "admin",
+      password: hash
+    });
+  
+    newAdmin.save();
+    res.redirect('/login');
+  });
+});
+});
+
+// LOGIN / LOGOUT ROUTES
+app.get('/',isLoggedIn, (req, res) =>{
+  res.render('dashboard')
+ })
+
+ app.get('/',isLoggedOut,(req, res) =>{
+  res.render('login')
+ })
+
+ app.get('logout', function (req,res) {
+  req.logout();
+  res.redirect('/');
+ });
 
 // ROUTE TO LOGIN PAGE
 app.get('/login',function (req, res) {
  res.render('login')
 })
 
-// ROUTE TO REGISTRATION PAGE
+// ROUTE TO REGISTER PAGE
 app.get('/register',function (req, res) {
   res.render('register')
  })
 
- app.get('/dashboard',function (req, res) {
+ // ROUTE TO DASHBOARD PAGE
+app.get('/dashboard',function (req, res) {
   res.render('dashboard')
  })
 
@@ -67,7 +152,7 @@ app.get('/display',function (req, res) {
 
 
 // ROUTE TO HOME PAGE
-app.get('/', function (req, res) {
+app.get('/home', function (req, res) {
 
   dbOperations.getAnime(res);
 })
@@ -129,5 +214,22 @@ dbOperations.updateItem(updatedAnimeItem,res);
   app.post('/login', function (req, res){
    
   })
+
+   // CREATE A ROUTE TO POST REGISTER
+   app.post('/register', function (req, res){
+   
+   })
+
+    // CREATE A ROUTE TO DASHBOARD REGISTER
+    app.post('/dashboard', function (req, res){
+   
+    })
+
+     // LOGIN AUTHENTICATE
+     app.post('/login', passport.authenticate ('local', {
+      successRedirect: '/',
+      failureRedirect: 'login?error=true'
+     }));
+
 
  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
