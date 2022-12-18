@@ -1,20 +1,24 @@
 const express = require('express');
 const app = express();
+const session = require('express-session');
 const dbOperations = require('./database.js');
 const port = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const localStrategy = require('passport-local').Strategy;
+require('dotenv').config();
 
-
-
-// DB CONFIGURATION
-const db = require('./config/keys').MongoURI;
-mongoose.set('strictQuery', true);
 
 // CONNECT TO DATABASE
-mongoose.connect(db, { useNewUrlParser: true})
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
+mongoose.set("strictQuery", true);
+
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qe67sb8.mongodb.net/?retryWrites=true&w=majority/Anime Database`,(err)=>{
+
+if(err) throw err;
+console.log("DB Connected Successfully");
+})
+
 
 /**To serve static files such as images, CSS files, and JavaScript files, create a folders
 * and include the below statement.  The below statement assumes that I have a folder named assets
@@ -24,7 +28,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 
-// view engine setup
+// VIEW ENGINE
 app.set("view engine", "hbs");
 
 // parse application/json
