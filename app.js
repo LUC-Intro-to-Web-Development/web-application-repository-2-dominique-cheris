@@ -88,7 +88,7 @@ bcrypt.genSalt(10, function (err, salt) {
   });
 });
 });
-/*
+
 // LOGIN / LOGOUT ROUTES
 app.get('/login',isLoggedIn, (req, res) =>{
   res.render('login')
@@ -102,7 +102,7 @@ app.get('/login',isLoggedIn, (req, res) =>{
   req.logout();
   res.redirect('/');
  });
-*/
+
 // ROUTE TO LOGIN PAGE
 app.get('/login',function (req, res) {
  res.render('login')
