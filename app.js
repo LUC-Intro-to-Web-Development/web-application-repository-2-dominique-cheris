@@ -11,6 +11,7 @@ var authRouter = require('./routes/auth');
 const passport = require('passport');
 const MongoStore = require('connect-mongo');
 const { db } = require('./models/User.js');
+var indexRouter = require('./routes/index');
 
 // CONNECT TO DATABASE
 mongoose.set("strictQuery", true);
@@ -28,7 +29,7 @@ console.log("Mongoose Connected Successfully")
 app.use(express.static('assets'))
 app.use(express.static(__dirname + '/public'));
 
-
+app.use('/', indexRouter);
 app.use('/', authRouter);
 
 app.use(session({
@@ -79,7 +80,7 @@ bcrypt.genSalt(10, function (err, salt) {
     if (err) return next(err);
     const newAdmin = new User ({
       username: "",
-      password: hash
+      password: ""
     });
   
     newAdmin.save();
@@ -87,7 +88,7 @@ bcrypt.genSalt(10, function (err, salt) {
   });
 });
 });
-
+/*
 // LOGIN / LOGOUT ROUTES
 app.get('/login',isLoggedIn, (req, res) =>{
   res.render('login')
@@ -101,7 +102,7 @@ app.get('/login',isLoggedIn, (req, res) =>{
   req.logout();
   res.redirect('/');
  });
-
+*/
 // ROUTE TO LOGIN PAGE
 app.get('/login',function (req, res) {
  res.render('login')
