@@ -14,7 +14,7 @@ const User = require('./models/User.js');
 // CONNECT TO DATABASE
 mongoose.set("strictQuery", true);
 
-mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qe67sb8.mongodb.net/?retryWrites=true&w=majority/Anime Database`,(err)=>{
+mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qe67sb8.mongodb.net/animedatabase?retryWrites=true&w=majority`,(err)=>{
 if(err) throw err;
 console.log("Mongoose Connected Successfully")
 });
@@ -33,29 +33,28 @@ app.use(session({
 }));
 
 
-
-// INITIALIZING PASSPORT
+//////////////////INITIALIZING PASSPORT//////////////////
 app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(function (user, done) {
-  return done(null, user.id);
+   done(null, user.id);
 });
 
 passport.deserializeUser(function(id,done) {
  User.findById(id, function (err, user) {
- return done(err,user);
+  done(err,user);
  });
 });
 
 passport.use(new localStrategy(function (username,password, done) {
   User.findOne({username: username}, function (err, user) {
     if (err)return done(err);
-    if(!user) return done(null,false, {message: 'Incorrect username'});
+    if(!user) return done(null,false, {message: 'Incorrect username' });
 
       bcrypt.compare(password, user.password, function (err,res) {
         if (err)return done(err);
 
-        if(res === false) return done(null, false, {message: 'Incorrect password'});
+        if(res === false) return done(null, false, {message: 'Incorrect password' });
         return done(null,user);
     });
   });
@@ -82,10 +81,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }))
 
 
-/* USERS JS
-app.use('/users', require('./routes/users'));
-*/
-// ROUTES
+
+//////////////////ROUTES//////////////////
 
 
 // SETUP ADMIN USER
@@ -112,8 +109,8 @@ bcrypt.genSalt(10, function (err, salt) {
 });
 
 // LOGIN / LOGOUT ROUTES
-app.get('/',isLoggedIn, (req, res) =>{
-  res.render('dashboard')
+app.get('/login',isLoggedIn, (req, res) =>{
+  res.render('login')
  })
 
  app.get('/',isLoggedOut,(req, res) =>{
@@ -171,6 +168,22 @@ app.get('/update', function (req, res) {
   dbOperations.getAnime(res);
 })
 
+
+// MONGOOSE ROUTES
+app.get ('/add-user', (req,res)=> {
+  const user = new User({
+    username: 'admin',
+    password:'mypassword'
+  });
+
+  user.save()
+  .then((result) => {
+    res.send(result)
+  })
+  .catch((err) => {
+    console.log(err);
+});
+})
 
 // ROUTE TO CREATE ANIME LIST ITEM
  app.post('/create', function (req, res) {
