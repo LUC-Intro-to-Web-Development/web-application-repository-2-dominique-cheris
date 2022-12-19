@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const session = require('express-session');
 const dbOperations = require('./database.js');
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -227,4 +227,6 @@ dbOperations.updateItem(updatedAnimeItem,res);
         db.Users('users').insertOne({username,password})
       })
 
-      app.listen(process.env.PORT || 3000);
+      app.listen(PORT,() => {
+        console.log(`App up at port ${PORT}`);
+      });
