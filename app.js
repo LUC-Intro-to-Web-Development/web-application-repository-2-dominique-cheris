@@ -5,11 +5,12 @@ const dbOperations = require('./database.js');
 const port = process.env.PORT || 3000;
 const bcrypt = require('bcrypt');
 const mongoose = require('mongoose');
-const passport = require('passport');
-const { use } = require('passport');
-const localStrategy = require('passport-local').Strategy;
 require('dotenv').config();
 const User = require('./models/User.js');
+var authRouter = require('./routes/auth');
+const passport = require('passport');
+const MongoStore = require('connect-mongo');
+const { db } = require('./models/User.js');
 
 // CONNECT TO DATABASE
 mongoose.set("strictQuery", true);
@@ -20,45 +21,24 @@ console.log("Mongoose Connected Successfully")
 });
 
 
+
 /**To serve static files such as images, CSS files, and JavaScript files, create a folders
 * and include the below statement.  The below statement assumes that I have a folder named assets
 **/
 app.use(express.static('assets'))
 app.use(express.static(__dirname + '/public'));
 
+
+app.use('/', authRouter);
+
 app.use(session({
-  secret:process.env.SESS_PASS,
+  secret: 'process.env.SESS_PASS',
   resave: false,
-  saveUninitialized:true
+  saveUninitialized:false,
+  store: MongoStore.create({mongoUrl:`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qe67sb8.mongodb.net/animedatabase?retryWrites=true&w=majority`})
 }));
+app.use(passport.authenticate('session'));
 
-
-//////////////////INITIALIZING PASSPORT//////////////////
-app.use(passport.initialize());
-app.use(passport.session());
-passport.serializeUser(function (user, done) {
-   done(null, user.id);
-});
-
-passport.deserializeUser(function(id,done) {
- User.findById(id, function (err, user) {
-  done(err,user);
- });
-});
-
-passport.use(new localStrategy(function (username,password, done) {
-  User.findOne({username: username}, function (err, user) {
-    if (err)return done(err);
-    if(!user) return done(null,false, {message: 'Incorrect username' });
-
-      bcrypt.compare(password, user.password, function (err,res) {
-        if (err)return done(err);
-
-        if(res === false) return done(null, false, {message: 'Incorrect password' });
-        return done(null,user);
-    });
-  });
-}));
 
 // REDIRECT TO LOGIN PAGE
 function isLoggedIn(req,res,next) {
@@ -78,7 +58,7 @@ app.set("view engine", "hbs");
 app.use(express.json());
 
 // For parsing application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: true }))
 
 
 
@@ -98,7 +78,7 @@ bcrypt.genSalt(10, function (err, salt) {
   bcrypt.hash('mypassword', salt, function (err,hash) {
     if (err) return next(err);
     const newAdmin = new User ({
-      username: "admin",
+      username: "",
       password: hash
     });
   
@@ -133,7 +113,7 @@ app.get('/register',function (req, res) {
  })
 
  // ROUTE TO DASHBOARD PAGE
-app.get('/dashboard',function (req, res) {
+app.get('/',function (req, res) {
   res.render('dashboard')
  })
 
@@ -172,8 +152,8 @@ app.get('/update', function (req, res) {
 // MONGOOSE ROUTES
 app.get ('/add-user', (req,res)=> {
   const user = new User({
-    username: 'admin',
-    password:'mypassword'
+    username:'',
+    password:''
   });
 
   user.save()
@@ -184,6 +164,8 @@ app.get ('/add-user', (req,res)=> {
     console.log(err);
 });
 })
+
+
 
 // ROUTE TO CREATE ANIME LIST ITEM
  app.post('/create', function (req, res) {
@@ -238,11 +220,11 @@ dbOperations.updateItem(updatedAnimeItem,res);
    
     })
 
-     // LOGIN AUTHENTICATE
-     app.post('/login', passport.authenticate ('local', {
-      successRedirect: '/',
-      failureRedirect: 'login?error=true'
-     }));
+      // CREATE A ROUTE TO DASHBOARD REGISTER
+     app.post ('/confirm_user', function (req, res){
+        const {username,password}= req.body;
+        var updatedUser = {username,password};
+        db.Users('users').insertOne({username,password})
+      })
 
-
- app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+      app.listen(process.env.PORT || 3000);
